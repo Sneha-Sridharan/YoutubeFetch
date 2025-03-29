@@ -1,19 +1,34 @@
-import { google } from 'googleapis';
 import { youtubeConfig } from '../constants';
-
-const youtube = google.youtube({
-    version: 'v3',
-    auth: process.env.YOUTUBE_API_KEY
-});
+import YouTubeVideos from '../models/youtubeVideosModal';
+import { getYouTubeClient, rotateApiKey } from './youtubeClient';
 
 class YouTubeService {
   async getLatestVideosAndAddToDB() {
     try {
-      const response = await youtube.search.list(youtubeConfig)
-      res.json(response.data);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: 'An error occurred while fetching videos' });
+      const youtube = getYouTubeClient();
+      const response = await youtube.search.list(youtubeConfig);
+      
+      const allVideos = response.data.items || [];
+      
+      const videos = allVideos.map(item => ({
+        title: item.snippet?.title || '',
+        description: item.snippet?.description || '',
+        publishTime: new Date(item.snippet?.publishedAt || ''),
+        thumbnailURLs: Object.values(item.snippet?.thumbnails || {}).map((thumbnail) => thumbnail.url)?.join(','),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }));
+      
+      await YouTubeVideos.bulkCreate(videos);
+    } catch (error: any) {
+      if (error.response && error.response.status === 403) {
+        rotateApiKey();
+        console.error('API key quota exhausted hence rotating to the next key');
+        
+        await this.getLatestVideosAndAddToDB();
+      } else {
+        console.error('Error fetching videos:', error);
+      }
     }
   }
 }
