@@ -1,7 +1,9 @@
 import express, { Application } from "express";
 import router from "./routes";
 import cron from "node-cron";
-// const cron=require('node-cron');
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const port = process.env.PORT || 8081;
 const app: Application = express();

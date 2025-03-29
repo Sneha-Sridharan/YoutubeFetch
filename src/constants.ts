@@ -1,1 +1,8 @@
-export const YOUTUBE_API_KEY = "AIzaSyAftT0alKkUpI76Yn6QZuasE4phvaMZq44";
+export const youtubeConfig = {
+    part: ['snippet'],
+    maxResults: 25,
+    type: ['video'],
+    q: 'cricket',
+    order: 'date',
+    publishedAfter: '2025-03-01T00:00:00Z'
+}
