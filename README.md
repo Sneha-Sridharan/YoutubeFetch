@@ -10,10 +10,7 @@
 - [Running the App](#running-the-app)
 - [Docker Support](#docker-support)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [Infra](#infra)
-- [What If service went down?](#what-if-service-went-down)
-- [Support](#support)
+- [Sample API URLs](#sample-api-urls)
 
 ### Description
 
