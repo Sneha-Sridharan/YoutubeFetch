@@ -4,5 +4,5 @@ export const youtubeConfig = {
     type: ['video'],
     q: 'cricket',
     order: 'date',
-    publishedAfter: '2025-03-01T00:00:00Z'
+    publishedAfter: '2025-03-29T00:00:00Z'
 }

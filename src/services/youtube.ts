@@ -5,6 +5,12 @@ import { getYouTubeClient, rotateApiKey } from './youtubeClient';
 class YouTubeService {
   async getLatestVideosAndAddToDB() {
     try {
+      const latestVideo = await YouTubeVideos.findOne({
+        order: [['publishTime', 'DESC']]
+      });
+
+      youtubeConfig.publishedAfter = latestVideo ? new Date(latestVideo.publishTime.getTime() + 1000).toISOString() : youtubeConfig.publishedAfter;
+
       const youtube = getYouTubeClient();
       const response = await youtube.search.list(youtubeConfig);
       
@@ -14,12 +20,13 @@ class YouTubeService {
         title: item.snippet?.title || '',
         description: item.snippet?.description || '',
         publishTime: new Date(item.snippet?.publishedAt || ''),
-        thumbnailURLs: Object.values(item.snippet?.thumbnails || {}).map((thumbnail) => thumbnail.url)?.join(','),
+        thumbnailURLs: Object.values(item.snippet?.thumbnails || {}).map((thumbnail) => thumbnail.url)?.join(', '),
         createdAt: new Date(),
         updatedAt: new Date()
       }));
       
       await YouTubeVideos.bulkCreate(videos);
+      console.log('Videos added to DB');
     } catch (error: any) {
       if (error.response && error.response.status === 403) {
         rotateApiKey();

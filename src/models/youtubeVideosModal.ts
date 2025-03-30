@@ -50,7 +50,15 @@ YouTubeVideos.init(
   },
   {
     tableName: 'youtubeVideos',
-    sequelize
+    sequelize,
+    indexes: [
+      {
+        fields: ['publishTime']
+      },
+      {
+        fields: ['title', 'description']
+      }
+    ]
   }
 );
 

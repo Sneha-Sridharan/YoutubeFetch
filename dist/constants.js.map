@@ -1,0 +1,1 @@
+{"version":3,"file":"constants.js","sourceRoot":"","sources":["../src/constants.ts"],"names":[],"mappings":";;;AAAa,QAAA,aAAa,GAAG;IACzB,IAAI,EAAE,CAAC,SAAS,CAAC;IACjB,UAAU,EAAE,EAAE;IACd,IAAI,EAAE,CAAC,OAAO,CAAC;IACf,CAAC,EAAE,SAAS;IACZ,KAAK,EAAE,MAAM;IACb,cAAc,EAAE,sBAAsB;CACzC,CAAA"}

@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 
 let currentKeyIndex = 0;
-let youTubeKeys = process.env.YOUTUBE_API_KEYS || [];
+let youTubeKeys = process.env.YOUTUBE_API_KEY?.split(',') || [];
 
 export function getYouTubeClient() {
   return google.youtube({
