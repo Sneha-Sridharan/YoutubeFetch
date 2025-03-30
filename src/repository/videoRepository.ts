@@ -7,6 +7,7 @@ const getVideosFromDB = async (queryParams: queryParams) => {
     const { page = 1, limit = 10 } = queryParams;
     const offset = (+page - 1) * +limit;
 
+    // Paginated fetch
     const videos = await YouTubeVideos.findAll({
       order: [["publishTime", "DESC"]],
       limit: +limit,
@@ -24,6 +25,7 @@ const searchVideosFromDB = async (queryParams: queryParams) => {
     const { searchKeyword, page = 1, limit = 10 } = queryParams;
     const offset = (+page - 1) * +limit;
 
+    // Like query to search any keyword within title or descrition. Pagination is enabled here as well to prevent overloading the server or client.
     const videos = await YouTubeVideos.findAll({
       where: {
         [Op.or]: [{ title: { [Op.like]: `%${searchKeyword}%` } }, { description: { [Op.like]: `%${searchKeyword}%` } }],

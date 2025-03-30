@@ -13,6 +13,7 @@ class VideoController {
 
   async searchVideos(req: Request, res: Response) {
     try {
+        // Search keyword is required.
         if (!req.query.searchKeyword) {
             res.status(400).send({ message: 'Search keyword is required' });
             return;

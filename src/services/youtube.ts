@@ -5,6 +5,7 @@ import { getYouTubeClient, rotateApiKey } from './youtubeClient';
 class YouTubeService {
   async getLatestVideosAndAddToDB() {
     try {
+      // Fetch latest video to get those videos that are published after that.
       const latestVideo = await YouTubeVideos.findOne({
         order: [['publishTime', 'DESC']]
       });
@@ -25,9 +26,11 @@ class YouTubeService {
         updatedAt: new Date()
       }));
       
+      // Add videos to DB
       await YouTubeVideos.bulkCreate(videos);
       console.log('Videos added to DB');
     } catch (error: any) {
+      // Rotate API Key if the error is due to API key quota
       if (error.response && error.response.status === 403) {
         rotateApiKey();
         console.error('API key quota exhausted hence rotating to the next key');
